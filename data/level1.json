@@ -1,0 +1,27 @@
+{
+	"cells": [
+		[0, 0, 0, 0, 0],
+		[0, 0, 0, 1, 1],
+		[0, 0, 0, 0, 0],
+		[1, 1, 0, 0, 0],
+		[0, 0, 0, 0, 0]
+	],
+	"characters": [
+		{
+			"id": 1,
+			"cell": [0, 0],
+			"max_health": 1,
+			"damage": 1,
+			"is_player": true,
+			"is_allied": true
+		},
+		{
+			"id": 2,
+			"cell": [1, 1],
+			"max_health": 1,
+			"damage": 1,
+			"is_player": false,
+			"is_allied": false
+		}
+	]
+}

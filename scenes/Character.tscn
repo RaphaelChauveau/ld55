@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://e2rhcsxot00d"]
+
+[ext_resource type="Script" path="res://scripts/Character.gd" id="1_0mhvk"]
+[ext_resource type="Texture2D" uid="uid://ds8876uayi3te" path="res://assets/tilesets/tiny_characters.png" id="1_0t0jf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pp6nq"]
+atlas = ExtResource("1_0t0jf")
+region = Rect2(16, 2.08165e-12, 16, 16)
+
+[node name="Character" type="Node2D"]
+script = ExtResource("1_0mhvk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_pp6nq")

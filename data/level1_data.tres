@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://dekq8h67flws3"]
+
+[ext_resource type="Script" path="res://scripts/LevelData.gd" id="1_xc6py"]
+
+[resource]
+script = ExtResource("1_xc6py")
+cells = Array[Array]([[1, 0, 0, 1, 0], [0, 1, 0, 0, 1], [0, 0, 1, 0, 0], [1, 0, 0, 1, 0], [0, 1, 0, 0, 1]])
+playerPosition = null
