@@ -1,9 +1,11 @@
+@tool
 extends Node2D
 
 var main
 
 func initialize(main):
 	self.main = main
+	$Level.initialize(self)
 	
 
 # Called when the node enters the scene tree for the first time.
