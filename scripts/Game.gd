@@ -5,6 +5,7 @@ var main
 
 func initialize(main):
 	self.main = main
+	$Level.map_data = "res://data/level1.json"
 	$Level.initialize(self)
 	
 

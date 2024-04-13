@@ -13,11 +13,16 @@ var selected_character
 var characters = []
 
 func on_tile_clicked(tile_position: Vector2i):
+	$SelectionCursor.visible = false
+	$CanvasLayer/Interface.clear_character()
 	selected_character = null
 	for c in characters:
 		if c.cell == tile_position:
 			selected_character = c
 			c.instance.is_selected = true
+			$SelectionCursor.visible = true
+			$SelectionCursor.position = c.instance.position + Vector2(0, -8)
+			$CanvasLayer/Interface.set_character(c)
 		else:
 			c.instance.is_selected = false
 	print("Tile clicked", tile_position) # prints lag a little bit :thinking face:
@@ -27,6 +32,9 @@ func init_level():
 	
 	# INIT MAP
 	$CollisionTileMap.load_cells(level_data.cells)
+	
+	# INIT camera
+	$Camera2D.position = Vector2(len(level_data.cells[0]), len(level_data.cells)) * 16 / 2
 	
 	# INIT controls
 	var height = len(level_data.cells)
@@ -55,8 +63,7 @@ func init_level():
 		c.instance = character_instance
 		character_instance.initialize(
 			self,
-			c.is_allied,
-			c.is_player,
+			c,
 			# c.max_health,
 			# c.damage,
 		)

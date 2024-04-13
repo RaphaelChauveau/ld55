@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://crd8fc5loiv7g"]
+
+[ext_resource type="Script" path="res://scripts/Interface.gd" id="1_cmt0l"]
+[ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_n6elb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odb72"]
+atlas = ExtResource("1_n6elb")
+region = Rect2(14, 206, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uppxi"]
+atlas = ExtResource("1_n6elb")
+region = Rect2(81, 208, 14, 47)
+
+[node name="Interface" type="Node2D"]
+script = ExtResource("1_cmt0l")
+
+[node name="PortraitFrame" type="Sprite2D" parent="."]
+position = Vector2(27, 27)
+texture = SubResource("AtlasTexture_odb72")
+
+[node name="Sprite2D" type="Sprite2D" parent="PortraitFrame"]
+scale = Vector2(3, 3)
+
+[node name="StatIcons" type="Sprite2D" parent="."]
+position = Vector2(62, 27)
+texture = SubResource("AtlasTexture_uppxi")

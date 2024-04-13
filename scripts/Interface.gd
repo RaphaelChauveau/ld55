@@ -1,21 +1,12 @@
-@tool
 extends Node2D
 
-var level
-
-var is_selected: bool = false
-
 var character_data
-var is_allied
-var is_player
-var cell_position: Vector2i
-var max_health
-var damage
 
-func initialize(level, character_data): # is_allied, is_player):#cell_position: Vector2i):
-	self.level = level
-	#self.cell_position = cell_position
-	
+func clear_character():
+	self.character_data = null
+	$PortraitFrame/Sprite2D.texture = null
+
+func set_character(character_data):
 	self.character_data = character_data
 	
 	var character_texture = AtlasTexture.new()
@@ -24,7 +15,7 @@ func initialize(level, character_data): # is_allied, is_player):#cell_position: 
 		self.character_data.atlas_position[0] * 16,
 		self.character_data.atlas_position[1] * 16,
 		16, 16)
-	$Sprite2D.texture = character_texture
+	$PortraitFrame/Sprite2D.texture = character_texture
 	pass
 
 # Called when the node enters the scene tree for the first time.

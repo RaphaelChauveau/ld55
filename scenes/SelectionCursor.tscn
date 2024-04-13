@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cs64txu71v77b"]
+[gd_scene load_steps=8 format=3 uid="uid://cs64txu71v77b"]
 
 [ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_brfoc"]
 
@@ -13,9 +13,9 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-2, -2), Vector2(0, 0)]
+"values": [Vector2(-1, -1), Vector2(-2, -2), Vector2(-1, -1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -25,9 +25,9 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-2, 2), Vector2(0, 0)]
+"values": [Vector2(-1, 1), Vector2(-2, 2), Vector2(-1, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -37,9 +37,9 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(2, 2), Vector2(0, 0)]
+"values": [Vector2(1, 1), Vector2(2, 2), Vector2(1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -49,29 +49,13 @@ tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(2, -2), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_05xj4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Sprite2DTL:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
+"values": [Vector2(1, -1), Vector2(2, -2), Vector2(1, -1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rset5"]
 _data = {
-"RESET": SubResource("Animation_05xj4"),
 "zoom_in_out": SubResource("Animation_r72fv")
 }
 
@@ -98,22 +82,24 @@ root_node = NodePath(".")
 libraries = {
 "": SubResource("AnimationLibrary_rset5")
 }
+autoplay = "zoom_in_out"
 
 [node name="Sprite2DTL" type="Sprite2D" parent="."]
+position = Vector2(-1.56209, -1.56209)
 texture = SubResource("AtlasTexture_ajohl")
 offset = Vector2(-5, -5)
 
 [node name="Sprite2DBL" type="Sprite2D" parent="."]
-position = Vector2(-0.502113, 0.502113)
+position = Vector2(-1.56209, 1.56209)
 texture = SubResource("AtlasTexture_qp141")
 offset = Vector2(-5, 5)
 
 [node name="Sprite2DBR" type="Sprite2D" parent="."]
-position = Vector2(0.502113, 0.502113)
+position = Vector2(1.56209, 1.56209)
 texture = SubResource("AtlasTexture_vnr7g")
 offset = Vector2(5, 5)
 
 [node name="Sprite2DTR" type="Sprite2D" parent="."]
-position = Vector2(0.502113, -0.502113)
+position = Vector2(1.56209, -1.56209)
 texture = SubResource("AtlasTexture_odyyx")
 offset = Vector2(5, -5)

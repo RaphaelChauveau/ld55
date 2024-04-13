@@ -1,29 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4gq52os6dvgo"]
+[gd_scene load_steps=3 format=3 uid="uid://b4gq52os6dvgo"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_fr5k0"]
-[ext_resource type="Texture2D" uid="uid://cu0ji1bmnprj3" path="res://assets/logo.png" id="1_thigg"]
 [ext_resource type="PackedScene" uid="uid://chfkfinm7x5kn" path="res://scenes/Level.tscn" id="2_sfalq"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_fr5k0")
 
 [node name="Level" parent="." instance=ExtResource("2_sfalq")]
-
-[node name="Logo" type="Sprite2D" parent="."]
-position = Vector2(256, 259)
-texture = ExtResource("1_thigg")
-
-[node name="Logo2" type="Sprite2D" parent="."]
-position = Vector2(996, 427)
-texture = ExtResource("1_thigg")
-
-[node name="Logo3" type="Sprite2D" parent="."]
-position = Vector2(804, 87)
-texture = ExtResource("1_thigg")
-
-[node name="Logo4" type="Sprite2D" parent="."]
-position = Vector2(488, 467)
-texture = ExtResource("1_thigg")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
+map_data = "res://data/level1.json"
