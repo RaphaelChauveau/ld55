@@ -13,7 +13,7 @@ var selected_character
 var characters = []
 
 func on_tile_clicked(tile_position: Vector2i):
-	selected_character_id = null
+	selected_character = null
 	for c in characters:
 		if c.cell == tile_position:
 			selected_character = c
