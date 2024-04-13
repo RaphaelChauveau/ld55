@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://chfkfinm7x5kn"]
+
+[ext_resource type="Script" path="res://scripts/Level.gd" id="1_jd64k"]
+[ext_resource type="PackedScene" uid="uid://5vrw61b6jlpl" path="res://scenes/CollisionTileMap.tscn" id="2_fwf0k"]
+[ext_resource type="Resource" uid="uid://dekq8h67flws3" path="res://levels/level1_data.tres" id="2_q7gan"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_jd64k")
+data = ExtResource("2_q7gan")
+
+[node name="CollisionTileMap" parent="." instance=ExtResource("2_fwf0k")]

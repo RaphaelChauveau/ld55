@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://5vrw61b6jlpl"]
+
+[ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_hbutg"]
+[ext_resource type="Script" path="res://scripts/CollisionTileMap.gd" id="2_8kbyt"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bc5u8"]
+texture = ExtResource("1_hbutg")
+2:5/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_qp4eh"]
+sources/0 = SubResource("TileSetAtlasSource_bc5u8")
+
+[node name="CollisionTileMap" type="TileMap"]
+tile_set = SubResource("TileSet_qp4eh")
+format = 2
+layer_1/modulate = Color(1, 0, 0, 1)
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("2_8kbyt")

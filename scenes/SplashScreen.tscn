@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://fxs6rgw0mxqc"]
+
+[ext_resource type="Texture2D" uid="uid://cu0ji1bmnprj3" path="res://assets/logo.png" id="1_dt2fl"]
+[ext_resource type="Script" path="res://scripts/SplashScreen.gd" id="1_ubfke"]
+
+[sub_resource type="Gradient" id="Gradient_0fv0u"]
+offsets = PackedFloat32Array(0, 0.480519, 0.941558)
+colors = PackedColorArray(0.278431, 0, 0, 1, 0.866667, 0.223529, 0.196078, 1, 0.8, 0.662745, 0.141176, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hv30q"]
+gradient = SubResource("Gradient_0fv0u")
+
+[node name="SplashScreen" type="Node2D"]
+script = ExtResource("1_ubfke")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(636.853, 368.318)
+rotation = 0.958186
+scale = Vector2(5.70619, 1419.03)
+texture = SubResource("GradientTexture1D_hv30q")
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(565, 211)
+scale = Vector2(3.35, 3.23)
+texture = ExtResource("1_dt2fl")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 335.0
+offset_top = 445.0
+offset_right = 811.0
+offset_bottom = 608.0
+text = "Start"
