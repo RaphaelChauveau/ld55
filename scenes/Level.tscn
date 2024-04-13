@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://chfkfinm7x5kn"]
+[gd_scene load_steps=6 format=3 uid="uid://chfkfinm7x5kn"]
 
 [ext_resource type="Script" path="res://scripts/Level.gd" id="1_jd64k"]
 [ext_resource type="PackedScene" uid="uid://5vrw61b6jlpl" path="res://scenes/CollisionTileMap.tscn" id="2_fwf0k"]
 [ext_resource type="PackedScene" uid="uid://cs64txu71v77b" path="res://scenes/SelectionCursor.tscn" id="3_d5wv8"]
+[ext_resource type="PackedScene" uid="uid://c82apklxo0jji" path="res://scenes/HudTiles.tscn" id="3_rjcm5"]
 [ext_resource type="PackedScene" uid="uid://crd8fc5loiv7g" path="res://scenes/Interface.tscn" id="4_5h23y"]
 
 [node name="Level" type="Node2D"]
@@ -14,6 +15,8 @@ layer_1/tile_data = PackedInt32Array(65540, 131072, 5, 196608, 131072, 5, 65539,
 
 [node name="CharacterContainer" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="HudTiles" parent="." instance=ExtResource("3_rjcm5")]
 
 [node name="Grid Inputs" type="Control" parent="."]
 layout_mode = 3
@@ -32,5 +35,10 @@ zoom = Vector2(3, 3)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Interface" parent="CanvasLayer" instance=ExtResource("4_5h23y")]
-position = Vector2(340, 481)
-scale = Vector2(3, 3)
+position = Vector2(16, 465)
+scale = Vector2(3, 3.04)
+
+[node name="DebugLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Debug text here"

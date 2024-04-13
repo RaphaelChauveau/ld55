@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://c82apklxo0jji"]
+
+[ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_mkrmm"]
+[ext_resource type="Script" path="res://scripts/HudTiles.gd" id="2_8mtnh"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b5ofq"]
+texture = ExtResource("1_mkrmm")
+2:5/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_1h362"]
+sources/0 = SubResource("TileSetAtlasSource_b5ofq")
+
+[node name="HudTiles" type="TileMap"]
+tile_set = SubResource("TileSet_1h362")
+format = 2
+layer_0/modulate = Color(0.498039, 1, 0.498039, 1)
+script = ExtResource("2_8mtnh")
