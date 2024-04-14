@@ -1,14 +1,13 @@
 @tool
 extends Node2D
 
-@export_file var map_data: String
-
 func load_json(file_path: String):
 	#var file = "res://file.json"
 	var json_as_text = FileAccess.get_file_as_string(file_path)
 	return JSON.parse_string(json_as_text)
 
 var game
+var cards
 var cells
 
 var selected_character # dict or null
@@ -22,18 +21,13 @@ var turn_character
 var in_transition = false
 var turn_follow_path
 var attack_since
+var character_to_summon
+var has_invoked = false
 
 var player_action = 0 # 0 Mvt 1, 2, 3 => Spells ?
 var action_tiles = []
-var action_distances = []
 
 func synchronize_visuals():
-	
-	if in_transition:
-		pass
-	else:
-		pass
-		
 	# CURSOR
 	if selected_character and not in_transition:
 		$SelectionCursor.visible = true
@@ -53,20 +47,35 @@ func synchronize_visuals():
 
 	# HUD TILES
 	$HudTiles.clear()
-	if (turn_character == selected_character 
-		and turn_character != null 
+	if (#turn_character == selected_character and
+		turn_character != null 
 		and turn_character.is_player
-		and not in_transition):
-		if player_action == 0:
-			$HudTiles.set_movement_tiles(action_tiles)
+		and not in_transition
+		and player_action == 0):
+		$HudTiles.set_movement_tiles(action_tiles)
+	if (turn_character != null 
+		and turn_character.is_player
+		and not in_transition
+		and player_action == 1):
+		$HudTiles.set_summoning_tiles(action_tiles)
+	
+	# CARDS
+	if (turn_character != null 
+		and turn_character.is_player
+		and not self.has_invoked):
+		$CanvasLayer/Interface/CharacterCardsContainer.modulate = "#FFFFFFFF"
+		$CanvasLayer/Interface/MaskingButton.visible = false
+	else:
+		$CanvasLayer/Interface/CharacterCardsContainer.modulate = "#00000044"
+		$CanvasLayer/Interface/MaskingButton.visible = true
+
 	
 	# DEBUG LABEL
 	if turn_character and turn_character.is_player:
 		$CanvasLayer/DebugLabel.text = "Player turn"
 	else:
-		$CanvasLayer/DebugLabel.text = "Character " + str(self.turn_character.id) + " turn"
-	
-		
+		$CanvasLayer/DebugLabel.text = "Character " + str(self.turn_character.name) + " turn"
+
 
 func set_selected_character(character_data):
 	if character_data:
@@ -113,8 +122,6 @@ func get_character_mvt_area(character_data, mi, ma):
 				tiles.append(Vector2i(c, l))
 				distances.append(grid[l][c])
 	return [tiles, distances]
-	
-	
 
 func set_player_action(action):
 	# 0 Mvt 1, 2, 3 => Spells ?
@@ -123,19 +130,46 @@ func set_player_action(action):
 		if action == 0: # MVT
 			var area_data = self.get_character_mvt_area(turn_character, 1, turn_character.movement)
 			action_tiles = area_data[0]
-			action_distances = area_data[1]
 			self.synchronize_visuals()
+		if action == 1: # invocation
+			var area_data = self.get_character_mvt_area(turn_character, 1, 1)
+			action_tiles = area_data[0]
+			self.synchronize_visuals()
+
+func handle_victory():
+	print("LEVEL VICTORY")
+	self.game.handle_level_victory()
+
+func kill_character(character):
+	if character.is_player:
+		# TODO handle defeat
+		return
+	for i in range(len(character)):
+		if characters[i] == character:
+			characters.remove_at(i)
+			if i <= turn_character_index:
+				turn_character_index -= 1
+			break
+
+	character.instance.queue_free()
+	
+	print("LEVEL VICTORY ?", characters)
+	for c in characters:
+		if not c.is_allied:
+			print("NOOO ?", c)
+			return
+	self.handle_victory()
 
 func hurt_character(character, damage):
 	character.health -= damage
 	if character.health <= 0:
 		character.health = 0
-		# TODO KILL
+		kill_character(character)
+		
 	# TODO show damage amount
 	pass
 
 func attack(character, tile: Vector2i):
-	print("attack")
 	self.in_transition = true
 	self.attack_since = 0.01
 	for other_character in self.characters:
@@ -153,7 +187,6 @@ func attack(character, tile: Vector2i):
 	self.synchronize_visuals()
 
 func end_attack():
-	print("end attack")
 	self.attack_since = null
 	self.in_transition = false
 	self.handle_end_turn()
@@ -167,16 +200,32 @@ func move_character(character, tile, path): #action_tile_index: int):
 	character.movement -= distance
 	
 	if character.is_player:
-		set_selected_character(turn_character)
+		# set_selected_character(turn_character)
 		set_player_action(0)
 	else:
 		synchronize_visuals()
+		
+func character_invokes(tile):
+	print("invocation !!!", tile)
+	if self.character_to_summon:
+		var char_struct = {
+			"cell": tile,
+		}
+		char_struct.merge(self.character_to_summon)
+		var char_data = init_one_character(char_struct)
+		self.characters.insert(turn_character_index + 1, char_struct)
+		self.character_to_summon = null
+		self.has_invoked = true
+		$CanvasLayer/Interface.unselect_cards()
+		self.synchronize_visuals()
+
+	set_player_action(0)
 	
 
 func on_tile_clicked(tile_position: Vector2i):
 	print("Tile clicked", tile_position) # prints lag a little bit :thinking face:
 	# Might be a player action
-	if turn_character.is_player and turn_character == selected_character:
+	if turn_character.is_player:
 		for i in range(len(action_tiles)):
 			var action_tile = action_tiles[i]
 			if tile_position == action_tile:
@@ -184,6 +233,8 @@ func on_tile_clicked(tile_position: Vector2i):
 					var movement_grid = self.get_character_movement_grid(turn_character)
 					var path = get_movement_path(movement_grid, turn_character.cell, action_tile)
 					move_character(turn_character, action_tile, path)
+				elif player_action == 1:
+					character_invokes(action_tile)
 				return
 	
 	set_selected_character(null)
@@ -193,15 +244,26 @@ func on_tile_clicked(tile_position: Vector2i):
 		else:
 			c.instance.is_selected = false
 
+func set_selected_character_card(character):
+	if character:
+		self.character_to_summon = character
+		set_player_action(1)
+	else:
+		set_player_action(0)
+		self.character_to_summon = null
+	pass
+
 func handle_end_turn():
 	var old_character = turn_character
-	turn_character_index = turn_character_index + 1
+	self.turn_character_index = turn_character_index + 1
 	if turn_character_index >= len(characters): # Next turn !
-		turn += 1
-		turn_character_index = 0
-	turn_character = characters[turn_character_index]
+		self.turn += 1
+		self.turn_character_index = 0
+	self.turn_character = characters[turn_character_index]
 	
 	# end character turn
+	$CanvasLayer/Interface.unselect_cards()
+	self.has_invoked = false
 	update_turn_character_temporary_data(old_character)
 	
 	# start character turn
@@ -281,10 +343,8 @@ func get_ia_attack(character):
 	var closest_enemy
 	var enemy_dist = INF
 	for l in range(len(range_grid)):
-		print(range_grid[l])
 		for c in range(len(range_grid[0])):
 			if range_grid[l][c] <= character.range:
-				print(range_grid[l][c], " ", character.range)
 				for over_character in characters:
 					if over_character.is_allied == character.is_allied:
 						continue
@@ -311,12 +371,12 @@ func end_character_movement():
 func init_character_turn():
 	if self.turn_character.is_player:
 		self.update_turn_character_temporary_data(self.turn_character)
-		set_selected_character(self.turn_character)
+		# set_selected_character(self.turn_character)
 		set_player_action(0)
 	else:
 		self.get_ia_actions(self.turn_character)
 		self.synchronize_visuals()
-		# self.handle_end_turn()
+
 
 func update_turn_character_temporary_data(character_data):
 	# TODO shoud be done at end of turn ?
@@ -326,8 +386,25 @@ func populate_character_temporary_data(character_data):
 	character_data.movement = character_data.max_movement
 	character_data.health = character_data.max_health
 
-func init_level():
-	var level_data = load_json(map_data)
+func init_one_character(character_data):
+	var character_scene = load("scenes/Character.tscn")
+	# character_data.cell = Vector2i(character_data.cell[0], character_data.cell[1])
+	# characters.append(character_data)
+	var character_instance = character_scene.instantiate()
+	character_data.instance = character_instance
+	self.populate_character_temporary_data(character_data)
+	character_instance.initialize(
+		self,
+		character_data,
+	)
+	character_instance.position = character_data.cell * 16 + Vector2i(8, 16)
+	$CharacterContainer.add_child(character_instance)
+	return character_data
+
+func init_level(level_number):
+	var data = Data.new()
+	var level_data = data.levels[level_number]
+	
 	cells = level_data.cells
 	
 	# INIT MAP
@@ -353,30 +430,20 @@ func init_level():
 			$"Grid Inputs".add_child(button)
 	
 	# INIT CHARACTERS
-	var character_scene = load("scenes/Character.tscn")
 	for c in level_data.characters:
-		c.cell = Vector2i(c.cell[0], c.cell[1])
-		characters.append(c)
-		var character_instance = character_scene.instantiate()
-		c.instance = character_instance
-		self.populate_character_temporary_data(c)
-		character_instance.initialize(
-			self,
-			c,
-		)
-		character_instance.position = c.cell * 16 + Vector2i(8, 16)
-		$CharacterContainer.add_child(character_instance)
-		pass
+		var character = self.init_one_character(c)
+		characters.append(character)
 	
 	# INIT TURNS LOGIC
 	self.turn = 0
 	self.turn_character = characters[0]
 	init_character_turn()
 
-func initialize(game):
+func initialize(game, level_number, available_cards):
 	self.game = game
+	self.cards = available_cards
 	$CanvasLayer/Interface.initialize(self)
-	init_level()
+	init_level(level_number)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -405,7 +472,6 @@ func _process(delta):
 				self.turn_character.instance.position += to_target_normalized * turn_distance
 		
 		elif self.attack_since:
-			print("since", self.attack_since)
 			self.attack_since += delta
 			if self.attack_since > 1:
 				self.end_attack()

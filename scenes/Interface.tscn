@@ -63,7 +63,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EndTurnButton" type="Sprite2D" parent="."]
-position = Vector2(187, 27)
+position = Vector2(120, 27)
 texture = SubResource("AtlasTexture_cdhhx")
 
 [node name="Button" type="Button" parent="EndTurnButton"]
@@ -71,5 +71,16 @@ offset_left = -34.0
 offset_top = -26.0
 offset_right = 34.0
 offset_bottom = 26.0
+focus_mode = 0
+flat = true
+
+[node name="CharacterCardsContainer" type="Node2D" parent="."]
+position = Vector2(157, -1)
+
+[node name="MaskingButton" type="Button" parent="."]
+offset_left = 157.0
+offset_top = -1.0
+offset_right = 590.0
+offset_bottom = 61.0
 focus_mode = 0
 flat = true

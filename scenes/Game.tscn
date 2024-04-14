@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4gq52os6dvgo"]
+[gd_scene load_steps=2 format=3 uid="uid://b4gq52os6dvgo"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_fr5k0"]
-[ext_resource type="PackedScene" uid="uid://chfkfinm7x5kn" path="res://scenes/Level.tscn" id="2_sfalq"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_fr5k0")
-
-[node name="Level" parent="." instance=ExtResource("2_sfalq")]
-map_data = "res://data/level1.json"

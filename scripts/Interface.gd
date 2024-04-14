@@ -27,9 +27,22 @@ func set_character(character_data):
 func on_end_turn_clicked():
 	self.level.handle_end_turn()
 
+func unselect_cards():
+	for card in $CharacterCardsContainer.get_children():
+		card.un_select()
+
 func initialize(level):
 	self.level = level
 	$EndTurnButton/Button.pressed.connect(on_end_turn_clicked)
+	
+	var card_scene = load("scenes/InvocationCard.tscn")
+	for i in range(len(level.cards)):
+		var character = level.cards[i]
+		var card_instance = card_scene.instantiate()
+		card_instance.initialize(level, character)
+		card_instance.position = Vector2(20 + i * 40, 28)
+		$CharacterCardsContainer.add_child(card_instance)# TODO
+		pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

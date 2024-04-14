@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://c4a5p26cqtfle"]
+
+[ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_2j2dj"]
+[ext_resource type="Script" path="res://scripts/InvocationCard.gd" id="1_irurt"]
+[ext_resource type="Texture2D" uid="uid://ds8876uayi3te" path="res://assets/tilesets/tiny_characters.png" id="2_itu27"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6bg6"]
+atlas = ExtResource("1_2j2dj")
+region = Rect2(124, 204, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnfbl"]
+atlas = ExtResource("1_2j2dj")
+region = Rect2(172, 204, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v62cr"]
+atlas = ExtResource("2_itu27")
+region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_865tn"]
+font_size = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_dot4u"]
+font_size = 14
+font_color = Color(0, 0, 0, 1)
+
+[node name="InvocationCard" type="Node2D"]
+script = ExtResource("1_irurt")
+
+[node name="UnselectedCard" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_j6bg6")
+
+[node name="SelectedCard" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("AtlasTexture_tnfbl")
+
+[node name="Portrait" type="Sprite2D" parent="."]
+position = Vector2(9, -5)
+texture = SubResource("AtlasTexture_v62cr")
+
+[node name="NameLabel" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = -35.0
+offset_top = 7.0
+offset_right = 35.0
+offset_bottom = 31.0
+text = "Druid "
+label_settings = SubResource("LabelSettings_865tn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackLabel" type="Label" parent="."]
+offset_left = -6.0
+offset_top = -1.0
+offset_right = 34.0
+offset_bottom = 19.0
+text = "3"
+label_settings = SubResource("LabelSettings_dot4u")
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = -6.0
+offset_top = -14.0
+offset_right = 34.0
+offset_bottom = 6.0
+text = "3"
+label_settings = SubResource("LabelSettings_dot4u")
+
+[node name="MovementLabel" type="Label" parent="."]
+offset_left = -6.0
+offset_top = -26.0
+offset_right = 34.0
+offset_bottom = -6.0
+text = "3"
+label_settings = SubResource("LabelSettings_dot4u")
+
+[node name="Button" type="Button" parent="."]
+offset_left = -18.0
+offset_top = -26.0
+offset_right = 18.0
+offset_bottom = 26.0
+focus_mode = 0
+flat = true

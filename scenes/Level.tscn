@@ -41,6 +41,7 @@ position = Vector2(16, 465)
 scale = Vector2(3, 3.04)
 
 [node name="DebugLabel" type="Label" parent="CanvasLayer"]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Debug text here"

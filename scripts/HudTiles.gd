@@ -1,6 +1,16 @@
 extends TileMap
 
-
+func set_summoning_tiles(tiles):
+	self.clear()
+	for tile in tiles:
+		self.set_cell(
+			1, # layer
+			tile, # position
+			0, # cell_source_id = atlas_id
+			Vector2i(2, 5) # tile_map_cell_atlas_coords
+		)
+	
+	
 func set_movement_tiles(tiles):
 	self.clear()
 	for tile in tiles:
@@ -10,7 +20,6 @@ func set_movement_tiles(tiles):
 			0, # cell_source_id = atlas_id
 			Vector2i(2, 5) # tile_map_cell_atlas_coords
 		)
-	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

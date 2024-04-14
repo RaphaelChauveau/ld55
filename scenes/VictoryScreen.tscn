@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6qgnprfh6ugw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_176en"]
+font_size = 90
+
+[sub_resource type="LabelSettings" id="LabelSettings_d5dgo"]
+font_size = 40
+
+[node name="VictoryScreen" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 384.0
+offset_top = 137.0
+offset_right = 757.0
+offset_bottom = 261.0
+text = "VICTORY"
+label_settings = SubResource("LabelSettings_176en")
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 342.0
+offset_top = 360.0
+offset_right = 828.0
+offset_bottom = 415.0
+text = "GG !! Thanks for playing :)"
+label_settings = SubResource("LabelSettings_d5dgo")
