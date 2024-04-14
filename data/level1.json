@@ -12,7 +12,7 @@
 			"cell": [0, 0],
 			"max_health": 1,
 			"damage": 1,
-			"movement": 3,
+			"max_movement": 3,
 			"is_player": true,
 			"is_allied": true,
 			"atlas_position": [0, 0]
@@ -22,7 +22,7 @@
 			"cell": [1, 1],
 			"max_health": 1,
 			"damage": 1,
-			"movement": 2,
+			"max_movement": 2,
 			"is_player": false,
 			"is_allied": false,
 			"atlas_position": [1, 0]

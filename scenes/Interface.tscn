@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://crd8fc5loiv7g"]
+[gd_scene load_steps=7 format=3 uid="uid://crd8fc5loiv7g"]
 
 [ext_resource type="Script" path="res://scripts/Interface.gd" id="1_cmt0l"]
 [ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_n6elb"]
@@ -16,6 +16,10 @@ line_spacing = 2.08165e-12
 font_size = 12
 outline_size = 8
 outline_color = Color(0.247059, 0.14902, 0.192157, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdhhx"]
+atlas = ExtResource("1_n6elb")
+region = Rect2(94, 270, 68, 52)
 
 [node name="Interface" type="Node2D"]
 script = ExtResource("1_cmt0l")
@@ -57,3 +61,15 @@ offset_bottom = 25.0
 label_settings = SubResource("LabelSettings_54sti")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EndTurnButton" type="Sprite2D" parent="."]
+position = Vector2(194, 27)
+texture = SubResource("AtlasTexture_cdhhx")
+
+[node name="Button" type="Button" parent="EndTurnButton"]
+offset_left = -34.0
+offset_top = -26.0
+offset_right = 34.0
+offset_bottom = 26.0
+focus_mode = 0
+flat = true

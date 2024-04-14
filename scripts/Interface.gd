@@ -1,5 +1,6 @@
 extends Node2D
 
+var level
 var character_data
 
 func clear_character():
@@ -20,8 +21,15 @@ func set_character(character_data):
 		16, 16)
 	$PortraitFrame/Sprite2D.texture = character_texture
 	$StatIcons/MovementLabel.text = str(self.character_data.movement)
-	$StatIcons/HealthLabel.text = str(self.character_data.max_health)
+	$StatIcons/HealthLabel.text = str(self.character_data.health)
 	$StatIcons/AttackLabel.text = str(self.character_data.damage)
+
+func on_end_turn_clicked():
+	self.level.handle_end_turn()
+
+func initialize(level):
+	self.level = level
+	$EndTurnButton/Button.pressed.connect(on_end_turn_clicked)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
