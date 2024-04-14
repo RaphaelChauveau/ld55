@@ -13,6 +13,7 @@
 			"max_health": 1,
 			"damage": 1,
 			"max_movement": 3,
+			"range": 1,
 			"is_player": true,
 			"is_allied": true,
 			"atlas_position": [0, 0]
@@ -23,6 +24,7 @@
 			"max_health": 1,
 			"damage": 1,
 			"max_movement": 2,
+			"range": 1,
 			"is_player": false,
 			"is_allied": false,
 			"atlas_position": [1, 0]

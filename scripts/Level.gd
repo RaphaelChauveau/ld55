@@ -207,6 +207,11 @@ func handle_end_turn():
 	# start character turn
 	init_character_turn()
 
+func get_character_range_grid(character):
+	var range_grid = self.create_2d_array(len(self.cells[0]), len(self.cells), INF)
+	populate_grid_with_weights(range_grid, character.cell.x, character.cell.y, 0, false)
+	return range_grid
+
 func get_character_movement_grid(character):
 	var movement_grid = self.create_2d_array(len(self.cells[0]), len(self.cells), INF)
 	populate_grid_with_weights(movement_grid, character.cell.x, character.cell.y, 0, true)
@@ -269,9 +274,29 @@ func get_ia_actions(character):
 func get_ia_attack(character):
 	# TODO
 	# chose target (enemy), better be player ?
-	# maybe attack
-	if true: # lol
-		attack(character, Vector2i(0, 0))
+		# get range grid
+		# get all enemies in range
+		# chose closest
+	var range_grid = get_character_range_grid(character)
+	var closest_enemy
+	var enemy_dist = INF
+	for l in range(len(range_grid)):
+		print(range_grid[l])
+		for c in range(len(range_grid[0])):
+			if range_grid[l][c] <= character.range:
+				print(range_grid[l][c], " ", character.range)
+				for over_character in characters:
+					if over_character.is_allied == character.is_allied:
+						continue
+					if over_character.cell != Vector2i(c, l):
+						continue
+					if range_grid[l][c] < enemy_dist:
+						closest_enemy = over_character
+
+	if closest_enemy:
+		attack(character, closest_enemy.cell)
+	else:
+		handle_end_turn()
 
 func end_character_movement():
 	self.in_transition = false
