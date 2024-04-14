@@ -9,7 +9,7 @@ var max_level = len(data.levels)
 var level_number
 
 func init_game():
-	self.level_number = 5 # 1 TODO
+	self.level_number = 1
 
 func init_level(level_number):
 	var level_scene = load("scenes/Level.tscn")
