@@ -13,8 +13,8 @@ func load_cells(cells):
 				self.set_cell(
 					1, # layer
 					Vector2i(c, l), # position
-					0, # cell_source_id = atlas_id
-					Vector2i(2, 5) # tile_map_cell_atlas_coords
+					2, # cell_source_id = atlas_id
+					Vector2i(3, 2) # tile_map_cell_atlas_coords
 					)
 			if (l + c) % 2 == 0:
 				self.set_cell(

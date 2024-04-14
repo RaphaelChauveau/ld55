@@ -62,5 +62,4 @@ func _process(delta):
 	for i in range(len(card_instances)):
 		var card_instance = card_instances[i]
 		var lerp_weight = delta * 5
-		print("lerp", len(card_instances), lerp_weight)
 		card_instance.position = card_instance.position.lerp(Vector2(20 + i * 40, 28), lerp_weight)

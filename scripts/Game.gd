@@ -7,22 +7,14 @@ var data = Data.new()
 var max_level = len(data.levels)
 
 var level_number
-var available_cards
 
 func init_game():
-	self.level_number = 1
-	self.available_cards = [
-		data.stats_by_character["lizard"].duplicate(true),
-		data.stats_by_character["bear"].duplicate(true),
-		data.stats_by_character["eagle"].duplicate(true),
-		data.stats_by_character["shark"].duplicate(true),
-		data.stats_by_character["lizard"].duplicate(true),
-	]
+	self.level_number = 5 # 1 TODO
 
 func init_level(level_number):
 	var level_scene = load("scenes/Level.tscn")
 	var level_instance = level_scene.instantiate()
-	level_instance.initialize(self, level_number, available_cards)
+	level_instance.initialize(self, level_number)
 	self.add_child(level_instance)
 
 func clear_level():
@@ -30,7 +22,6 @@ func clear_level():
 	for c in children:
 		self.remove_child(c)
 		c.queue_free()
-	
 
 func handle_defeat():
 	self.clear_level()

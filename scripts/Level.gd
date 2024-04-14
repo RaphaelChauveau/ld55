@@ -140,6 +140,12 @@ func handle_victory():
 	print("LEVEL VICTORY")
 	self.game.handle_level_victory()
 
+func victory_check():
+	for c in characters:
+		if not c.is_allied:
+			return
+	self.handle_victory()
+
 func handle_defeat():
 	self.game.handle_defeat()
 
@@ -156,12 +162,7 @@ func kill_character(character):
 
 	character.instance.queue_free()
 	
-	print("LEVEL VICTORY ?", characters)
-	for c in characters:
-		if not c.is_allied:
-			print("NOOO ?", c)
-			return
-	self.handle_victory()
+	# self.victory_check()
 
 func hurt_character(character, damage):
 	character.health -= damage
@@ -194,6 +195,8 @@ func end_attack():
 	self.in_transition = false
 	self.handle_end_turn()
 	self.synchronize_visuals()
+	
+	self.victory_check()
 
 func move_character(character, tile, path): #action_tile_index: int):
 	var distance = len(path) - 1
@@ -415,7 +418,7 @@ func init_level(level_number):
 	$CollisionTileMap.load_cells(level_data.cells)
 	
 	# INIT camera
-	$Camera2D.position = Vector2(len(level_data.cells[0]), len(level_data.cells)) * 16 / 2
+	$Camera2D.position = Vector2(len(level_data.cells[0]), len(level_data.cells)) * 16 / 2 + Vector2(0, 28)
 	
 	# INIT controls
 	var height = len(level_data.cells)
@@ -443,9 +446,11 @@ func init_level(level_number):
 	self.turn_character = characters[0]
 	init_character_turn()
 
-func initialize(game, level_number, available_cards):
+func initialize(game, level_number):
 	self.game = game
-	self.cards = available_cards
+	var data = Data.new()
+	var level_data = data.levels[level_number]
+	self.cards = level_data.available_cards
 	$CanvasLayer/Interface.initialize(self)
 	init_level(level_number)
 
