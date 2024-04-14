@@ -140,9 +140,12 @@ func handle_victory():
 	print("LEVEL VICTORY")
 	self.game.handle_level_victory()
 
+func handle_defeat():
+	self.game.handle_defeat()
+
 func kill_character(character):
 	if character.is_player:
-		# TODO handle defeat
+		handle_defeat()
 		return
 	for i in range(len(character)):
 		if characters[i] == character:
@@ -216,6 +219,7 @@ func character_invokes(tile):
 		self.characters.insert(turn_character_index + 1, char_struct)
 		self.character_to_summon = null
 		self.has_invoked = true
+		$CanvasLayer/Interface.drop_selected_card()
 		$CanvasLayer/Interface.unselect_cards()
 		self.synchronize_visuals()
 

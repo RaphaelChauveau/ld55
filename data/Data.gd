@@ -80,18 +80,18 @@ var characters_by_level = {
 		merge_dicts(stats_by_character["farmer"], {
 			"cell": Vector2i(1, 1),
 		}),
-		merge_dicts(stats_by_character["lizard"], {
-			"cell": Vector2i(1, 0),
-		}),
-		merge_dicts(stats_by_character["bear"], {
-			"cell": Vector2i(2, 0),
-		}),
-		merge_dicts(stats_by_character["eagle"], {
-			"cell": Vector2i(3, 0),
-		}),
-		merge_dicts(stats_by_character["shark"], {
-			"cell": Vector2i(4, 0),
-		}),
+		#merge_dicts(stats_by_character["lizard"], {
+			#"cell": Vector2i(1, 0),
+		#}),
+		#merge_dicts(stats_by_character["bear"], {
+			#"cell": Vector2i(2, 0),
+		#}),
+		#merge_dicts(stats_by_character["eagle"], {
+			#"cell": Vector2i(3, 0),
+		#}),
+		#merge_dicts(stats_by_character["shark"], {
+			#"cell": Vector2i(4, 0),
+		#}),
 	]
 }
 

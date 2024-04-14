@@ -4,15 +4,20 @@ extends Node2D
 var main
 
 var data = Data.new()
-var level_number = 1
 var max_level = len(data.levels)
-var available_cards = [
-	data.stats_by_character["lizard"].duplicate(true),
-	data.stats_by_character["bear"].duplicate(true),
-	data.stats_by_character["eagle"].duplicate(true),
-	data.stats_by_character["shark"].duplicate(true),
-	data.stats_by_character["lizard"].duplicate(true),
-]
+
+var level_number
+var available_cards
+
+func init_game():
+	self.level_number = 1
+	self.available_cards = [
+		data.stats_by_character["lizard"].duplicate(true),
+		data.stats_by_character["bear"].duplicate(true),
+		data.stats_by_character["eagle"].duplicate(true),
+		data.stats_by_character["shark"].duplicate(true),
+		data.stats_by_character["lizard"].duplicate(true),
+	]
 
 func init_level(level_number):
 	var level_scene = load("scenes/Level.tscn")
@@ -20,22 +25,35 @@ func init_level(level_number):
 	level_instance.initialize(self, level_number, available_cards)
 	self.add_child(level_instance)
 
-func handle_total_victory():
-	print("You win :)")
+func clear_level():
 	var children = self.get_children()
 	for c in children:
 		self.remove_child(c)
 		c.queue_free()
+	
+
+func handle_defeat():
+	self.clear_level()
+	var defeat_scene = load("scenes/DefeatScreen.tscn")
+	var defeat_instance = defeat_scene.instantiate()
+	defeat_instance.initialize(self.retry)
+	self.add_child(defeat_instance)
+
+func retry():
+	self.clear_level()
+	self.init_game()
+	self.init_level(1)
+
+func handle_total_victory():
+	print("You win :)")
+	self.clear_level()
 	
 	var victory_scene = load("scenes/VictoryScreen.tscn")
 	var victory_instance = victory_scene.instantiate()
 	self.add_child(victory_instance)
 
 func handle_level_victory():
-	var children = self.get_children()
-	for c in children:
-		self.remove_child(c)
-		c.queue_free()
+	self.clear_level()
 	
 	level_number += 1
 	if level_number > max_level:
@@ -46,6 +64,7 @@ func handle_level_victory():
 func initialize(main):
 	self.main = main
 
+	self.init_game()
 	self.init_level(level_number)
 	
 

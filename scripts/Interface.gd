@@ -31,6 +31,13 @@ func unselect_cards():
 	for card in $CharacterCardsContainer.get_children():
 		card.un_select()
 
+func drop_selected_card():
+	for card in $CharacterCardsContainer.get_children():
+		if card.selected:
+			$CharacterCardsContainer.remove_child(card)
+			card.queue_free()
+			break
+
 func initialize(level):
 	self.level = level
 	$EndTurnButton/Button.pressed.connect(on_end_turn_clicked)
@@ -41,7 +48,7 @@ func initialize(level):
 		var card_instance = card_scene.instantiate()
 		card_instance.initialize(level, character)
 		card_instance.position = Vector2(20 + i * 40, 28)
-		$CharacterCardsContainer.add_child(card_instance)# TODO
+		$CharacterCardsContainer.add_child(card_instance)
 		pass
 
 # Called when the node enters the scene tree for the first time.
@@ -51,4 +58,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	var card_instances = $CharacterCardsContainer.get_children()
+	for i in range(len(card_instances)):
+		var card_instance = card_instances[i]
+		var lerp_weight = delta * 5
+		print("lerp", len(card_instances), lerp_weight)
+		card_instance.position = card_instance.position.lerp(Vector2(20 + i * 40, 28), lerp_weight)
