@@ -19,14 +19,23 @@ var turn_character_index = 0
 var turn_character
 
 # var turn_character_moving_to = null
+var in_transition = false
+var turn_follow_path
+var attack_since
 
 var player_action = 0 # 0 Mvt 1, 2, 3 => Spells ?
 var action_tiles = []
 var action_distances = []
 
 func synchronize_visuals():
+	
+	if in_transition:
+		pass
+	else:
+		pass
+		
 	# CURSOR
-	if selected_character:
+	if selected_character and not in_transition:
 		$SelectionCursor.visible = true
 		$SelectionCursor.position = selected_character.instance.position + Vector2(0, -8)
 	else:
@@ -37,7 +46,7 @@ func synchronize_visuals():
 		$CanvasLayer/Interface.set_character(selected_character)
 	else:
 		$CanvasLayer/Interface.clear_character()
-	if turn_character.is_player:
+	if turn_character.is_player and not in_transition:
 		$CanvasLayer/Interface/EndTurnButton.visible = true
 	else:
 		$CanvasLayer/Interface/EndTurnButton.visible = false
@@ -46,7 +55,8 @@ func synchronize_visuals():
 	$HudTiles.clear()
 	if (turn_character == selected_character 
 		and turn_character != null 
-		and turn_character.is_player):
+		and turn_character.is_player
+		and not in_transition):
 		if player_action == 0:
 			$HudTiles.set_movement_tiles(action_tiles)
 	
@@ -95,8 +105,6 @@ func get_character_mvt_area(character_data, mi, ma):
 	"""Returns a pair tile_positions / distances"""
 	var grid = self.create_2d_array(len(cells[0]), len(cells), INF)
 	populate_grid_with_weights(grid, character_data.cell.x, character_data.cell.y, 0, true)
-	for row in grid:
-		print(row)
 	var tiles = []
 	var distances = []
 	for l in range(len(grid)):
@@ -118,11 +126,44 @@ func set_player_action(action):
 			action_distances = area_data[1]
 			self.synchronize_visuals()
 
-func move_character(character, tile, distance): #action_tile_index: int):
-	# var tile = action_tiles[action_tile_index]
-	# var distance = action_distances[action_tile_index]
-	character.cell = tile 
-	character.instance.position = tile * 16 + Vector2i(8, 16)
+func hurt_character(character, damage):
+	character.health -= damage
+	if character.health <= 0:
+		character.health = 0
+		# TODO KILL
+	# TODO show damage amount
+	pass
+
+func attack(character, tile: Vector2i):
+	print("attack")
+	self.in_transition = true
+	self.attack_since = 0.01
+	for other_character in self.characters:
+		#if character == other_character:
+		#	continue
+		if other_character.cell == tile:
+			self.hurt_character(other_character, character.damage)
+	
+	# Show Attack animation
+	var attack_instance = load("scenes/AttackAnimation.tscn").instantiate()
+	attack_instance.position = tile * 16 + Vector2i(8, 8)
+	$EffectsContainer.add_child(attack_instance)
+	# TODO cleanup
+	
+	self.synchronize_visuals()
+
+func end_attack():
+	print("end attack")
+	self.attack_since = null
+	self.in_transition = false
+	self.handle_end_turn()
+	self.synchronize_visuals()
+
+func move_character(character, tile, path): #action_tile_index: int):
+	var distance = len(path) - 1
+	in_transition = true
+	character.cell = tile
+	turn_follow_path = path
 	character.movement -= distance
 	
 	if character.is_player:
@@ -140,9 +181,9 @@ func on_tile_clicked(tile_position: Vector2i):
 			var action_tile = action_tiles[i]
 			if tile_position == action_tile:
 				if player_action == 0:
-					var tile = self.action_tiles[i]
-					var distance = self.action_distances[i]
-					move_character(turn_character, tile, distance)
+					var movement_grid = self.get_character_movement_grid(turn_character)
+					var path = get_movement_path(movement_grid, turn_character.cell, action_tile)
+					move_character(turn_character, action_tile, path)
 				return
 	
 	set_selected_character(null)
@@ -166,6 +207,30 @@ func handle_end_turn():
 	# start character turn
 	init_character_turn()
 
+func get_character_movement_grid(character):
+	var movement_grid = self.create_2d_array(len(self.cells[0]), len(self.cells), INF)
+	populate_grid_with_weights(movement_grid, character.cell.x, character.cell.y, 0, true)
+	return movement_grid
+
+func get_movement_path(movement_grid, from: Vector2i, to: Vector2i):
+	var grid_width = len(movement_grid[0])
+	var grid_height = len(movement_grid)
+	var path = [to]
+	while path[-1] != from:
+		var current_cell = path[-1]
+		var current_dist = movement_grid[current_cell.y][current_cell.x]
+		for offset in [Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(0, -1)]:
+			var target_cell = current_cell + offset
+			if (target_cell.x < 0 or target_cell.y < 0 
+				or target_cell.x >= grid_width or target_cell.y >= grid_height):
+				continue
+
+			if movement_grid[target_cell.y][target_cell.x] == current_dist - 1:
+				path.append(target_cell)
+				break
+	path.reverse()
+	return path
+
 func get_ia_actions(character):
 	var enemies = []
 	for other_character in characters:
@@ -176,19 +241,9 @@ func get_ia_actions(character):
 	var range_grid = self.create_2d_array(len(cells[0]), len(cells), INF)
 	for enemy in enemies:
 		populate_grid_with_weights(range_grid, enemy.cell.x, enemy.cell.y, 0, false)
-	#for enemy in enemies:
-	#	range_grid[enemy.cell.y][enemy.cell.x] = INF
-	print("range_grid")
-	for row in range_grid:
-		print(row)
 	
 	# where can I go ?
-	var movement_grid = self.create_2d_array(len(cells[0]), len(cells), INF)
-	populate_grid_with_weights(movement_grid, character.cell.x, character.cell.y, 0, true)
-	# range_grid[character.cell.y][character.cell.x] = 0
-	print("movement_grid")
-	for row in movement_grid:
-		print(row)
+	var movement_grid = get_character_movement_grid(character)
 	
 	# find best spot, with least effort
 	var best_tile = null
@@ -207,8 +262,26 @@ func get_ia_actions(character):
 					and movement_grid[l][c] < best_distance):
 					best_distance = movement_grid[l][c]
 					best_tile = Vector2i(c, l)
+
+	var path = get_movement_path(movement_grid, character.cell, best_tile)	
+	move_character(self.turn_character, best_tile, path)
+
+func get_ia_attack(character):
+	# TODO
+	# chose target (enemy), better be player ?
+	# maybe attack
+	if true: # lol
+		attack(character, Vector2i(0, 0))
+
+func end_character_movement():
+	self.in_transition = false
+	self.turn_follow_path = null
 	
-	move_character(character, best_tile, best_distance)
+	self.synchronize_visuals()
+
+	if not turn_character.is_player:
+		# TODO IA stuff
+		self.get_ia_attack(turn_character)
 
 func init_character_turn():
 	if self.turn_character.is_player:
@@ -218,10 +291,10 @@ func init_character_turn():
 	else:
 		self.get_ia_actions(self.turn_character)
 		self.synchronize_visuals()
-		self.handle_end_turn()
+		# self.handle_end_turn()
 
 func update_turn_character_temporary_data(character_data):
-	# TODO shoud be done at end of turn
+	# TODO shoud be done at end of turn ?
 	character_data.movement = character_data.max_movement
 
 func populate_character_temporary_data(character_data):
@@ -290,4 +363,26 @@ func _process(delta):
 	if Engine.is_editor_hint():
 		pass
 		# init_level()
-
+	if self.in_transition:
+		if self.turn_follow_path:
+			var next_cell = self.turn_follow_path[0]
+			var next_position = Vector2(next_cell) * 16 + Vector2(8, 16)
+			
+			var turn_distance = delta * 50
+			var to_next_position = next_position - self.turn_character.instance.position
+			if self.turn_character.instance.position.distance_to(next_position) < turn_distance:
+				self.turn_character.instance.position = next_position
+				self.turn_follow_path.remove_at(0)
+				if self.turn_follow_path.is_empty():
+					self.end_character_movement()
+			else:
+				var to_target_normalized = self.turn_character.instance.position.direction_to(next_position).normalized()				
+				self.turn_character.instance.position += to_target_normalized * turn_distance
+		
+		elif self.attack_since:
+			print("since", self.attack_since)
+			self.attack_since += delta
+			if self.attack_since > 1:
+				self.end_attack()
+			pass
+			

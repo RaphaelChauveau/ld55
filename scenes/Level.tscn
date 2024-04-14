@@ -18,6 +18,8 @@ y_sort_enabled = true
 
 [node name="HudTiles" parent="." instance=ExtResource("3_rjcm5")]
 
+[node name="EffectsContainer" type="Node2D" parent="."]
+
 [node name="Grid Inputs" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
