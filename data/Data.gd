@@ -5,7 +5,7 @@ const stats_by_character = {
 	"player": {
 		"name": "Druid",
 		"max_health": 3,
-		"damage": 1,
+		"damage": 0,
 		"max_movement": 3,
 		"range": 1,
 		"atlas_position": [5, 7],
