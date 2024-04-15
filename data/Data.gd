@@ -47,7 +47,7 @@ const stats_by_character = {
 		"name": "Shark",
 		"max_health": 1,
 		"damage": 10,
-		"max_movement": 0,
+		"max_movement": 1,
 		"range": 1,
 		"atlas_position": [2, 23],
 		"is_player": false,
