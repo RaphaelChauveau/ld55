@@ -150,6 +150,8 @@ func handle_defeat():
 	self.game.handle_defeat()
 
 func kill_character(character):
+	if selected_character == character:
+		selected_character = null
 	if character.is_player:
 		handle_defeat()
 		return
