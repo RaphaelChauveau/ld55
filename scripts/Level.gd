@@ -442,6 +442,8 @@ func init_level(level_number):
 	for c in level_data.characters:
 		var character = self.init_one_character(c)
 		characters.append(character)
+		if c.is_player:
+			self.selected_character = c
 	
 	# INIT TURNS LOGIC
 	self.turn = 0
