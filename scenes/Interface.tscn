@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://crd8fc5loiv7g"]
+[gd_scene load_steps=8 format=3 uid="uid://crd8fc5loiv7g"]
 
 [ext_resource type="Script" path="res://scripts/Interface.gd" id="1_cmt0l"]
 [ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_n6elb"]
+[ext_resource type="FontFile" uid="uid://dcbi1vpip6bwk" path="res://assets/fonts/Kenney Pixel.ttf" id="3_brhft"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_odb72"]
 atlas = ExtResource("1_n6elb")
@@ -13,7 +14,7 @@ region = Rect2(81, 208, 14, 47)
 
 [sub_resource type="LabelSettings" id="LabelSettings_54sti"]
 line_spacing = 2.08165e-12
-font_size = 12
+font = ExtResource("3_brhft")
 outline_size = 8
 outline_color = Color(0.247059, 0.14902, 0.192157, 1)
 
@@ -36,28 +37,31 @@ position = Vector2(62, 27)
 texture = SubResource("AtlasTexture_uppxi")
 
 [node name="MovementLabel" type="Label" parent="StatIcons"]
-offset_left = 9.0
+offset_left = 6.0
 offset_top = -24.0
-offset_right = 26.0
+offset_right = 23.0
 offset_bottom = -7.0
+text = "3"
 label_settings = SubResource("LabelSettings_54sti")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HealthLabel" type="Label" parent="StatIcons"]
-offset_left = 9.0
+offset_left = 6.0
 offset_top = -8.0
-offset_right = 26.0
+offset_right = 23.0
 offset_bottom = 9.0
+text = "3"
 label_settings = SubResource("LabelSettings_54sti")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AttackLabel" type="Label" parent="StatIcons"]
-offset_left = 9.0
+offset_left = 6.0
 offset_top = 8.0
-offset_right = 26.0
+offset_right = 23.0
 offset_bottom = 25.0
+text = "3"
 label_settings = SubResource("LabelSettings_54sti")
 horizontal_alignment = 1
 vertical_alignment = 1

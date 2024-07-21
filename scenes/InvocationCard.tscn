@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4a5p26cqtfle"]
+[gd_scene load_steps=11 format=3 uid="uid://c4a5p26cqtfle"]
 
 [ext_resource type="Texture2D" uid="uid://b3dgbmx06dhda" path="res://assets/tilesets/tiny_hud.png" id="1_2j2dj"]
 [ext_resource type="Script" path="res://scripts/InvocationCard.gd" id="1_irurt"]
 [ext_resource type="Texture2D" uid="uid://ds8876uayi3te" path="res://assets/tilesets/tiny_characters.png" id="2_itu27"]
+[ext_resource type="FontFile" uid="uid://702i7k5ogsaq" path="res://assets/fonts/Kenney Mini Square.ttf" id="4_78526"]
+[ext_resource type="FontFile" uid="uid://bpcmbcpqe6j3m" path="res://assets/fonts/Kenney Mini.ttf" id="4_jsmfn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j6bg6"]
 atlas = ExtResource("1_2j2dj")
@@ -17,11 +19,13 @@ atlas = ExtResource("2_itu27")
 region = Rect2(2.08165e-12, 2.08165e-12, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_865tn"]
+font = ExtResource("4_jsmfn")
 font_size = 8
 
 [sub_resource type="LabelSettings" id="LabelSettings_dot4u"]
-font_size = 14
-font_color = Color(0, 0, 0, 1)
+font = ExtResource("4_78526")
+font_color = Color(0.247059, 0.14902, 0.192157, 1)
+outline_size = 4
 
 [node name="InvocationCard" type="Node2D"]
 script = ExtResource("1_irurt")
@@ -50,25 +54,25 @@ vertical_alignment = 1
 
 [node name="AttackLabel" type="Label" parent="."]
 offset_left = -6.0
-offset_top = -1.0
+offset_top = -2.0
 offset_right = 34.0
-offset_bottom = 19.0
+offset_bottom = 18.0
 text = "3"
 label_settings = SubResource("LabelSettings_dot4u")
 
 [node name="HealthLabel" type="Label" parent="."]
 offset_left = -6.0
-offset_top = -14.0
+offset_top = -15.0
 offset_right = 34.0
-offset_bottom = 6.0
+offset_bottom = 5.0
 text = "3"
 label_settings = SubResource("LabelSettings_dot4u")
 
 [node name="MovementLabel" type="Label" parent="."]
 offset_left = -6.0
-offset_top = -26.0
+offset_top = -27.0
 offset_right = 34.0
-offset_bottom = -6.0
+offset_bottom = -7.0
 text = "3"
 label_settings = SubResource("LabelSettings_dot4u")
 

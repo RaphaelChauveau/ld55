@@ -150,6 +150,7 @@ func handle_defeat():
 	self.game.handle_defeat()
 
 func kill_character(character):
+	print("kill_character", character)
 	if selected_character == character:
 		selected_character = null
 	if character.is_player:
@@ -163,33 +164,38 @@ func kill_character(character):
 			break
 
 	character.instance.queue_free()
-	
-	# self.victory_check()
 
 func hurt_character(character, damage):
+	print("LEVEL HURT CHARACTER", damage)
+	
+	var damage_label = character.instance.get_node("DamageLabel")
+	damage_label.get_node("Label").text = "-" + str(damage)
+	damage_label.get_node("AnimationPlayer").play("run")
+	
 	character.health -= damage
 	if character.health <= 0:
 		character.health = 0
-		kill_character(character)
-		
-	# TODO show damage amount
-	pass
+		character.instance.kys()
 
-func attack(character, tile: Vector2i):
-	self.in_transition = true
-	self.attack_since = 0.01
-	for other_character in self.characters:
-		#if character == other_character:
-		#	continue
-		if other_character.cell == tile:
-			self.hurt_character(other_character, character.damage)
-	
+func hit_character(character, damage):
+	print("LEVEL HIT CHARACTER", damage)
 	# Show Attack animation
 	var attack_instance = load("scenes/AttackAnimation.tscn").instantiate()
-	attack_instance.position = tile * 16 + Vector2i(8, 8)
+	attack_instance.initialize(self)
+	attack_instance.position = character.cell * 16 + Vector2i(8, 8)
 	$EffectsContainer.add_child(attack_instance)
-	# TODO cleanup
 	
+	self.hurt_character(character, damage)
+
+func attack(character, tile: Vector2i):
+	print("LEVEL ATTACK")
+	self.in_transition = true
+	self.attack_since = 0.01
+	
+	for other_character in self.characters:
+		if other_character.cell == tile:
+			character.instance.attack_character(other_character)
+
 	self.synchronize_visuals()
 
 func end_attack():
@@ -200,15 +206,18 @@ func end_attack():
 	
 	self.victory_check()
 
-func move_character(character, tile, path): #action_tile_index: int):
+func move_character(character, tile, path):
 	var distance = len(path) - 1
 	in_transition = true
 	character.cell = tile
 	turn_follow_path = path
 	character.movement -= distance
 	
+	self.turn_character.instance.get_node("AnimationPlayer").play("RESET")
+	self.turn_character.instance.get_node("AnimationPlayer").advance(0)
+	self.turn_character.instance.get_node("AnimationPlayer").play("run")
+	
 	if character.is_player:
-		# set_selected_character(turn_character)
 		set_player_action(0)
 	else:
 		synchronize_visuals()
@@ -372,6 +381,10 @@ func end_character_movement():
 	self.turn_follow_path = null
 	
 	self.synchronize_visuals()
+	
+	self.turn_character.instance.get_node("AnimationPlayer").play("RESET")
+	self.turn_character.instance.get_node("AnimationPlayer").advance(0)
+	self.turn_character.instance.get_node("AnimationPlayer").play("idle")
 
 	if not turn_character.is_player:
 		# TODO IA stuff
@@ -484,9 +497,11 @@ func _process(delta):
 				var to_target_normalized = self.turn_character.instance.position.direction_to(next_position).normalized()				
 				self.turn_character.instance.position += to_target_normalized * turn_distance
 		
-		elif self.attack_since:
-			self.attack_since += delta
-			if self.attack_since > 1:
-				self.end_attack()
-			pass
+		# TODO clear attack_since
+		
+		# elif self.attack_since:
+		# 	self.attack_since += delta
+		# 	if self.attack_since > 1:
+		# 		self.end_attack()
+		# 	pass
 			

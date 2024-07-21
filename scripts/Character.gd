@@ -5,6 +5,8 @@ var level
 
 var is_selected: bool = false
 
+var attack_target
+
 var character_data
 var is_allied
 var is_player
@@ -12,9 +14,32 @@ var cell_position: Vector2i
 var max_health
 var damage
 
-func initialize(level, character_data): # is_allied, is_player):#cell_position: Vector2i):
+
+func finished_dying():
+	self.level.kill_character(self.character_data)
+
+func kys():
+	$AnimationPlayer.play("death")
+	# on animation end, calls finished_dying
+
+func hit_target():
+	print("CHARACTER HIT TARGET")
+	self.level.hit_character(self.attack_target, self.character_data.damage)
+
+func attack_character(target_character):
+	print("CHARACTER ATTACK CHARACTER", target_character.cell.y, self.character_data.cell.y)
+	attack_target = target_character
+	if target_character.cell.y > self.character_data.cell.y:
+		$AnimationPlayer.play("attack_down")
+	elif target_character.cell.y < self.character_data.cell.y:
+		$AnimationPlayer.play("attack_up")
+	elif target_character.cell.x > self.character_data.cell.x:
+		$AnimationPlayer.play("attack_right")
+	elif target_character.cell.x < self.character_data.cell.x:
+		$AnimationPlayer.play("attack_left")
+
+func initialize(level, character_data):
 	self.level = level
-	#self.cell_position = cell_position
 	
 	self.character_data = character_data
 	

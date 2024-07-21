@@ -1,28 +1,54 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1712994228
+::res://::1721557112
 icon.svg::CompressedTexture2D::582370887403168513::1712982174::1712982177::1::::<><>::
-::res://assets/::1712983328
+::res://assets/::1719764543
 logo.png::CompressedTexture2D::6228789790999596698::1712983221::1712983263::1::::<><>::
-::res://assets/tilesets/::1713000425
+::res://assets/fonts/::1719764562
+Kenney Blocks.ttf::FontFile::7195351262461979653::1453242668::1719764562::1::::<><>::
+Kenney Future Narrow.ttf::FontFile::1188892180408770506::1509878190::1719764562::1::::<><>::
+Kenney Future.ttf::FontFile::2175854701828302880::1509877730::1719764562::1::::<><>::
+Kenney High Square.ttf::FontFile::1139287805012978308::1453242560::1719764562::1::::<><>::
+Kenney High.ttf::FontFile::8640642134298773680::1453242566::1719764562::1::::<><>::
+Kenney Mini Square Mono.ttf::FontFile::6771043035227175509::1648818072::1719764562::1::::<><>::
+Kenney Mini Square.ttf::FontFile::2299307783001741224::1453242462::1719764562::1::::<><>::
+Kenney Mini.ttf::FontFile::3444112612431117280::1453242434::1719764562::1::::<><>::
+Kenney Pixel Square.ttf::FontFile::1699534373918483922::1509878816::1719764562::1::::<><>::
+Kenney Pixel.ttf::FontFile::7302237409240254754::1509878822::1719764562::1::::<><>::
+Kenney Rocket Square.ttf::FontFile::3532606566038734285::1453242616::1719764562::1::::<><>::
+Kenney Rocket.ttf::FontFile::1906041047164043369::1453242620::1719764562::1::::<><>::
+::res://assets/tilesets/::1713125438
 tiny_characters.png::CompressedTexture2D::8492848167766470970::1712993872::1712993880::1::::<><>::
-tiny_hud.png::CompressedTexture2D::4358268193558832234::1712989097::1712989100::1::::<><>::
+tiny_floor_decoration.png::CompressedTexture2D::233212432205146317::1713125434::1713125438::1::::<><>::
+tiny_hud.png::CompressedTexture2D::4358268193558832234::1713108576::1713108578::1::::<><>::
 tiny_terrains.png::CompressedTexture2D::3846211752853722884::1713000422::1713000425::1::::<><>::
-::res://data/::1712998855
-level1.json::JSON::-1::1712998855::0::1::::<><>::
-level1_data.tres::Resource/LevelData::7461692023268617024::1712994170::0::1::::<><>::res://scripts/LevelData.gd
-::res://scenes/::1713000633
-Character.tscn::PackedScene::337538397263787409::1713000811::0::1::::<><>::res://scenes/Character.gd<>uid://ds8876uayi3te::::res://assets/tilesets/tiny_characters.png
-CollisionTileMap.tscn::PackedScene::2150090386795162509::1713000633::0::1::::<><>::uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png<>res://scripts/CollisionTileMap.gd<>uid://bu2ess0qix2qa::::res://assets/tilesets/tiny_terrains.png
-Game.tscn::PackedScene::4435309902038931318::1713000633::0::1::::<><>::res://scripts/Game.gd<>uid://cu0ji1bmnprj3::::res://assets/logo.png<>uid://chfkfinm7x5kn::::res://scenes/Level.tscn
-Level.tscn::PackedScene::5275101701378102225::1713000728::0::1::::<><>::res://scripts/Level.gd<>uid://5vrw61b6jlpl::::res://scenes/CollisionTileMap.tscn
-Main.tscn::PackedScene::8040764005786951202::1713000043::0::1::::<><>::res://scripts/Main.gd
-Character.gd::GDScript::-1::1713000774::0::1::::<>Node2D<>::
+::res://data/::1713190362
+Data.gd::GDScript::-1::1713190362::0::1::::Data<>Node<>::
+::res://scenes/::1721499264
+AttackAnimation.gd::GDScript::-1::1720190895::0::1::::<>Node2D<>::
+AttackAnimation.tscn::PackedScene::2827464882798797507::1720884259::0::1::::<><>::uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png<>res://scenes/AttackAnimation.gd
+Character.tscn::PackedScene::337538397263787409::1721499042::0::1::::<><>::res://scripts/Character.gd<>uid://ds8876uayi3te::::res://assets/tilesets/tiny_characters.png<>uid://dgpcdbudrcftd::::res://scenes/DamageLabel.tscn
+CollisionTileMap.tscn::PackedScene::2150090386795162509::1719762482::0::1::::<><>::uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png<>res://scripts/CollisionTileMap.gd<>uid://bu2ess0qix2qa::::res://assets/tilesets/tiny_terrains.png<>uid://dk78e0bsbudp::::res://assets/tilesets/tiny_floor_decoration.png
+DamageLabel.tscn::PackedScene::7611487654164189213::1721499264::0::1::::<><>::uid://dcbi1vpip6bwk::::res://assets/fonts/Kenney Pixel.ttf
+DefeatScreen.gd::GDScript::-1::1713119870::0::1::::<>Node2D<>::
+DefeatScreen.tscn::PackedScene::1183143404156016905::1713119872::0::1::::<><>::res://scenes/DefeatScreen.gd
+Game.tscn::PackedScene::4435309902038931318::1721499042::0::1::::<><>::res://scripts/Game.gd
+HudTiles.tscn::PackedScene::7144838737000524966::1719762482::0::1::::<><>::uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png<>res://scripts/HudTiles.gd
+Interface.tscn::PackedScene::5974257584135420698::1721499042::0::1::::<><>::res://scripts/Interface.gd<>uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png<>uid://dcbi1vpip6bwk::::res://assets/fonts/Kenney Pixel.ttf
+InvocationCard.tscn::PackedScene::6810167595713104550::1721499042::0::1::::<><>::uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png<>res://scripts/InvocationCard.gd<>uid://ds8876uayi3te::::res://assets/tilesets/tiny_characters.png<>uid://702i7k5ogsaq::::res://assets/fonts/Kenney Mini Square.ttf<>uid://bpcmbcpqe6j3m::::res://assets/fonts/Kenney Mini.ttf
+Level.tscn::PackedScene::5275101701378102225::1721499042::0::1::::<><>::res://scripts/Level.gd<>uid://5vrw61b6jlpl::::res://scenes/CollisionTileMap.tscn<>uid://cs64txu71v77b::::res://scenes/SelectionCursor.tscn<>uid://c82apklxo0jji::::res://scenes/HudTiles.tscn<>uid://crd8fc5loiv7g::::res://scenes/Interface.tscn
+Main.tscn::PackedScene::8040764005786951202::1713022042::0::1::::<><>::res://scripts/Main.gd
+SelectionCursor.tscn::PackedScene::6102032226543741961::1713022042::0::1::::<><>::uid://b3dgbmx06dhda::::res://assets/tilesets/tiny_hud.png
 SplashScreen.tscn::PackedScene::399574075213650350::1713000043::0::1::::<><>::uid://cu0ji1bmnprj3::::res://assets/logo.png<>res://scripts/SplashScreen.gd
-::res://scripts/::1713000632
+VictoryScreen.tscn::PackedScene::6982113895857225338::1713119872::0::1::::<><>::
+::res://scripts/::1720889125
+Character.gd::GDScript::-1::1720889125::0::1::::<>Node2D<>::
 CharacterData.gd::GDScript::-1::1712992686::0::1::::CharacterData<>Resource<>::
-CollisionTileMap.gd::GDScript::-1::1713000632::0::1::::<>TileMap<>::
-Game.gd::GDScript::-1::1712991264::0::1::::<>Node2D<>::
-Level.gd::GDScript::-1::1713000679::0::1::::<>Node2D<>::
+CollisionTileMap.gd::GDScript::-1::1713126173::0::1::::<>TileMap<>::
+Game.gd::GDScript::-1::1713190562::0::1::::<>Node2D<>::
+HudTiles.gd::GDScript::-1::1713110835::0::1::::<>TileMap<>::
+Interface.gd::GDScript::-1::1713128290::0::1::::<>Node2D<>::
+InvocationCard.gd::GDScript::-1::1713114712::0::1::::<>Node2D<>::
+Level.gd::GDScript::-1::1720888312::0::1::::<>Node2D<>::
 LevelData.gd::GDScript::-1::1712994228::0::1::::LevelData<>Resource<>::
-Main.gd::GDScript::-1::1712984905::0::1::::<>Node2D<>::
+Main.gd::GDScript::-1::1713022005::0::1::::<>Node2D<>::
 SplashScreen.gd::GDScript::-1::1712984817::0::1::::<>Node2D<>::
